@@ -2494,7 +2494,8 @@ fn hex_edit(ui: &mut egui::Ui, id: egui::Id, color: &mut [f32; 4]) -> bool {
     let mut child = ui.new_child(egui::UiBuilder::new().max_rect(field).layout(egui::Layout::left_to_right(egui::Align::Center)));
     // Room for a pasted "#rrggbb"; the parse trims it, and the field shows plain digits otherwise.
     // `Frame::NONE`: the themed surface above is this field's frame.
-    let resp = child.add(egui::TextEdit::singleline(&mut text).id(id).char_limit(7).desired_width(field.width()).frame(egui::Frame::NONE).font(theme::mono(12.0)));
+    let resp =
+        child.add(egui::TextEdit::singleline(&mut text).id(id).char_limit(7).desired_width(field.width()).frame(egui::Frame::NONE).font(theme::mono(12.0)));
     if resp.has_focus() {
         ui.data_mut(|d| d.insert_temp(id, text.clone()));
     } else {
