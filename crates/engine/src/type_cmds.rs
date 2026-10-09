@@ -418,7 +418,7 @@ fn with_text_layer<R>(s: &mut Session, p: &Value, label: &str, f: impl FnOnce(&m
         let l = doc.layer_mut(id).ok_or(EngineError::NoLayer(id))?;
         let auto_named = is_auto_named(l);
         let LayerContent::Text(t) = &mut l.content else {
-            return Err(EngineError::Other(format!("layer {} is a {} layer, not a type layer", id.0, l.content.kind_name())));
+            return Err(EngineError::Other(format!("layer {} is {} {} layer, not a type layer", id.0, l.content.article(), l.content.kind_name())));
         };
         let before = t.cache.as_ref().map(|c| c.tile_bounds());
         let mut rename = None;
@@ -523,6 +523,7 @@ pub fn specs() -> Vec<CommandSpec> {
                     Some(Value::String(value)) if value == "vertical" => Orientation::Vertical,
                     _ => return Err(bad("type.create", "orientation must be horizontal or vertical")),
                 };
+                check_kerning(p).map_err(|m| bad("type.create", m))?;
                 check_size_tracking(p).map_err(|m| bad("type.create", m))?;
                 let text = norm_text(p.get("text").and_then(Value::as_str).unwrap_or(""));
                 // Type › Save Default Type Styles sets the starting styles; the colour is always
@@ -816,6 +817,32 @@ mod tests {
             Err(EngineError::BadParams { cmd, .. }) if cmd == "type.setStyle"
         ));
         assert_eq!(text_layer(&s, id).runs, before.runs);
+    }
+
+    /// A font that arrives after the layer was drawn (served fonts on the web) re-renders it with
+    /// no history step, and a clean document stays clean.
+    #[test]
+    fn refreshing_type_layers_takes_no_history_step() {
+        let mut s = session();
+        let id = LayerId(s.execute("type.create", json!({"text": "Hello", "size": 24})).unwrap()["layer"].as_u64().unwrap());
+        let doc_id = s.active().unwrap().doc.id;
+        // Stale pixels, and a document saved in this state.
+        {
+            let st = s.active_mut().unwrap();
+            let Some(Layer { content: LayerContent::Text(t), .. }) = Arc::make_mut(&mut st.doc).layer_mut(id) else { panic!("not a type layer") };
+            t.cache = None;
+            st.saved_revision = st.revision;
+        }
+        let rev = s.active().unwrap().revision;
+        let unknown = [(doc_id, LayerId(9999)), (photocraft_doc::DocId(u64::MAX), id)];
+        assert!(s.refresh_type_layers(&[&[(doc_id, id)][..], &unknown].concat()).is_empty());
+        assert!(text_layer(&s, id.0).cache.is_some());
+        let st = s.active().unwrap();
+        assert!(st.revision > rev);
+        assert_eq!(st.saved_revision, st.revision, "still clean");
+        // The only history step is still the creation.
+        assert!(s.undo());
+        assert!(s.active().unwrap().doc.layer(id).is_none());
     }
 
     #[test]
@@ -1114,6 +1141,17 @@ mod tests {
         }
         assert!(s.execute("type.setStyle", json!({"layer": id, "kerning": "tight"})).is_err());
         assert_eq!(text_layer(&s, id).runs, before.runs);
+        // type.create rejects the same values and creates no layer (#994).
+        let layers = s.active().unwrap().doc.layer_count();
+        for k in [json!("tight"), json!(1e9), json!(-5000), json!(true), json!([1])] {
+            let p = json!({"x": 0, "y": 10, "text": "AV", "kerning": k});
+            assert!(s.execute("type.create", p.clone()).is_err(), "{p}");
+        }
+        assert_eq!(s.active().unwrap().doc.layer_count(), layers);
+        let id = s.execute("type.create", json!({"x": 0, "y": 10, "text": "AV", "kerning": "optical"})).unwrap()["layer"].as_u64().unwrap();
+        assert!(kerning_of(&s, id).iter().all(|k| *k == (Kerning::Optical, 0.0)));
+        let id = s.execute("type.create", json!({"x": 0, "y": 10, "text": "AV", "kerning": -50})).unwrap()["layer"].as_u64().unwrap();
+        assert!(kerning_of(&s, id).iter().all(|k| *k == (Kerning::Off, -50.0)));
     }
 
     /// Cost of one Alt+←/→ press (`kernPair`: two measuring layouts + the edit's re-render) on
