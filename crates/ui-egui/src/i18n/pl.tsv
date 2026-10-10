@@ -3439,3 +3439,8 @@ cameraRaw	Roughness	Chropowatość
 	Previous Document	Poprzedni dokument
 	W x H x Resolution	Szer. x Wys. x Rozdzielczość
 	Front Image	Obraz na wierzchu
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	Kliknij, aby umieścić · Alt-kliknij lub przeciągnij poza obszar roboczy, aby usunąć
+	No document open	Brak otwartego dokumentu
+	{n} of {max} sample points	{n} z {max} punktów próbkowania

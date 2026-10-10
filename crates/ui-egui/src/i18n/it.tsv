@@ -2489,3 +2489,8 @@ fontWeight	Italic	Corsivo
 	Previous Document	Documento precedente
 	W x H x Resolution	L x A x Risoluzione
 	Front Image	Immagine in primo piano
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	Fai clic per posizionare · Alt-clic o trascina fuori dalla tela per rimuovere
+	No document open	Nessun documento aperto
+	{n} of {max} sample points	{n} di {max} punti di campionamento

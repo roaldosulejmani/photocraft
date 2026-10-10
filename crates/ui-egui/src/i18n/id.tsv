@@ -2825,3 +2825,8 @@ fontWeight	Italic	Miring
 	Previous Document	Dokumen Sebelumnya
 	W x H x Resolution	L x T x Resolusi
 	Front Image	Gambar Depan
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	Klik untuk menempatkan · Alt-klik atau seret ke luar kanvas untuk menghapus
+	No document open	Tidak ada dokumen yang terbuka
+	{n} of {max} sample points	{n} dari {max} titik sampel

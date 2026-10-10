@@ -2838,3 +2838,8 @@ fontWeight	Italic	Italique
 	Previous Document	Document précédent
 	W x H x Resolution	L x H x Résolution
 	Front Image	Image de premier plan
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	Cliquez pour placer · Alt-clic ou glisser hors du canevas pour supprimer
+	No document open	Aucun document ouvert
+	{n} of {max} sample points	{n} sur {max} points d'échantillonnage

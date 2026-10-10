@@ -2427,3 +2427,8 @@ fontWeight	Italic	斜体
 	Previous Document	上一个文档
 	W x H x Resolution	宽 x 高 x 分辨率
 	Front Image	前面的图像
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	单击以放置 · Alt 单击或拖到画布外以移除
+	No document open	未打开任何文档
+	{n} of {max} sample points	{max} 个取样点中的 {n} 个

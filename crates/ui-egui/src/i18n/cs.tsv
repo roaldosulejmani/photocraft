@@ -2419,3 +2419,8 @@ fontWeight	Italic	Kurzíva
 	Previous Document	Předchozí dokument
 	W x H x Resolution	Š x V x Rozlišení
 	Front Image	Přední obraz
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	Kliknutím umístíte · Alt-kliknutím nebo přetažením mimo plátno odeberete
+	No document open	Není otevřen žádný dokument
+	{n} of {max} sample points	{n} z {max} bodů měření

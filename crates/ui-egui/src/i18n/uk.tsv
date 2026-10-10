@@ -3526,3 +3526,8 @@ cameraRaw	Masking	Маскування
 	Previous Document	Попередній документ
 	W x H x Resolution	Ш x В x Роздільна здатність
 	Front Image	Зображення переднього плану
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	Клацніть, щоб розмістити · Alt-клацання або перетягування за межі полотна для видалення
+	No document open	Документ не відкрито
+	{n} of {max} sample points	{n} з {max} точок вимірювання

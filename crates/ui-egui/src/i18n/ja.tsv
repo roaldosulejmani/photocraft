@@ -3439,3 +3439,8 @@ fontWeight	Italic	斜体
 	Previous Document	前のドキュメント
 	W x H x Resolution	幅 x 高さ x 解像度
 	Front Image	前面の画像
+
+# Color Sampler (added with the i18n coverage repair)
+	Click to place · Alt-click or drag off-canvas to remove	クリックで配置 · Alt キーを押しながらクリック、またはカンバス外へドラッグで削除
+	No document open	ドキュメントが開かれていません
+	{n} of {max} sample points	{max} 個中 {n} 個のサンプルポイント
